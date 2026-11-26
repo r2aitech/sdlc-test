@@ -1,0 +1,27 @@
+# Commit to r2aitech/sdlc-test as .github/workflows/e2e-tests.yml (on main, BEFORE starting a run,
+# so every feature branch created by A5 contains it).
+# Triggered by A7 (Test agent) once per story on the PR branch via GitHub MCP actions_run_trigger.
+name: e2e-tests
+on:
+  workflow_dispatch:
+    inputs:
+      story_key:
+        description: Jira story key, e.g. KAN-12
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate input
+        env:
+          STORY_KEY: ${{ inputs.story_key }}
+        run: |
+          [[ "$STORY_KEY" =~ ^[A-Z][A-Z0-9]+-[0-9]+$ ]] || { echo "invalid story key"; exit 1; }
+      - name: End-to-end tests (placeholder)
+        env:
+          STORY_KEY: ${{ inputs.story_key }}
+        run: echo "Running end-to-end tests for $STORY_KEY on $GITHUB_REF_NAME"
