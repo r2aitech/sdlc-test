@@ -1,0 +1,24 @@
+# Commit to r2aitech/sdlc-test as .github/workflows/deploy.yml (on main).
+# Triggered by A9 (Release agent) via GitHub MCP actions_run_trigger, after G4 approval.
+name: deploy
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        default: staging
+        type: choice
+        options: [staging, production]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy (placeholder)
+        env:
+          TARGET: ${{ inputs.environment }}
+        run: echo "Deploying $GITHUB_SHA to $TARGET"
